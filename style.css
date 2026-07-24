@@ -1,0 +1,112 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 20px;
+    color: #333;
+}
+
+#container {
+    width: 95%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#scene-description {
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-left: 4px solid #55c;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+#drill-down-nav {
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #fcfcfc;
+    margin-bottom: 20px;
+}
+
+#drill-down-options {
+    margin-top: 10px;
+}
+
+button {
+    margin: 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #bbb;
+    background-color: #fff;
+    border-radius: 3px;
+}
+
+button:hover {
+    background-color: #eee;
+}
+
+button.active {
+    font-weight: bold;
+    background-color: #ddd;
+    border-color: #999;
+}
+
+.overview-btn {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#tooltip {
+    position: absolute;
+    background: white;
+    border: 1px solid #333;
+    padding: 8px 12px;
+    pointer-events: none;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+#tooltip h3 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#tooltip p {
+    margin: 0;
+    font-size: 13px;
+}
+
+.annotation path {
+    stroke: black;
+    fill: none;
+}
+
+.annotation path.connector-arrow {
+    fill: black;
+}
+
+.annotation text {
+    fill: black;
+    font-size: 12px;
+}
+
+.annotation-note-title {
+    font-weight: bold;
+}
+
+.axis-label {
+    font-weight: bold;
+    font-size: 14px;
+}

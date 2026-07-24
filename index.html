@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Resolutions</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <h1>Gym Resolutions</h1>
+            <p style="font-size: 14px; color: #666; margin-top: -5px;"><i>Click the red or green boxes in the legend to toggle the view</i></p>
+            <p id="scene-description">Loading data...</p>
+        </header>
+        
+        <div id="drill-down-nav">
+            <button id="btn-scene1" class="active overview-btn">Overview: The Ghosting Epidemic</button>
+            
+            <div id="drill-down-options">
+                <span>Drill down into factors:</span>
+                <button id="btn-scene2" class="drill-btn">↳ Demographics (Age)</button>
+                <button id="btn-scene3" class="drill-btn">↳ Commitment (Contracts)</button>
+                <button id="btn-scene4" class="drill-btn">↳ Location (Distance)</button>
+            </div>
+        </div>
+
+        <main id="viz-container">
+            <!-- SVG will be injected here -->
+        </main>
+        
+        <div id="tooltip" class="hidden"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
