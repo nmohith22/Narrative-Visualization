@@ -68,7 +68,7 @@ function drawFirstChart() {
                 .text(d.val.toFixed(1) + "%")
                 .style("font-size", "14px")
                 .style("font-weight", "bold")
-                .style("fill", "#f8fafc")
+                .style("fill", "#333")
                 .style("opacity", 0)
                 .transition().duration(300)
                 .style("opacity", 1);

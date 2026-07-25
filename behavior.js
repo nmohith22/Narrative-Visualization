@@ -172,7 +172,7 @@ function drawLineChart() {
         let activeDrop = ((1 - lineData[3].active / lineData[0].active) * 100).toFixed(0);
         let annotations = [{
             note: {
-                label: "Churned members' attendance drops " + churnedDrop + "% from Week 1 to 4, while active members only drop " + activeDrop + "%. The decline predicts who will quit.",
+                label: "Churned members' attendance drops " + churnedDrop + "% from Week 1 to 4, while active members only drop " + activeDrop + "%.",
                 wrap: 240
             },
             connector: { type: "none" },
