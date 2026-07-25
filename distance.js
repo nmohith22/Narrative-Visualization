@@ -154,7 +154,7 @@ function drawConcentricCircles(colName, orderArr) {
                     wrap: 240
                 },
                 connector: { type: "none" },
-                x: 20,
+                x: 50,
                 y: 20,
                 dx: 0,
                 dy: 0
