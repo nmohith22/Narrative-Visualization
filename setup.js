@@ -1,9 +1,9 @@
 let currentScene = 1;
 let myData = [];
 
-let margin = { top: 60, right: 120, bottom: 70, left: 70 };
+let margin = { top: 90, right: 120, bottom: 70, left: 70 };
 let w = 900 - margin.left - margin.right;
-let h = 520 - margin.top - margin.bottom;
+let h = 540 - margin.top - margin.bottom;
 
 let svg = d3.select("#viz-container")
     .append("svg")
