@@ -132,8 +132,8 @@ function drawGroupedBarChart(colName, xText, orderArr) {
                 connector: { end: "arrow" },
                 x: x0("<25") + x1("Churned") + x1.bandwidth() / 2,
                 y: y(youngest.Churned),
-                dx: 110,
-                dy: -90
+                dx: 280,
+                dy: -140
             }];
         } else if (savedScene === 3) {
             // Compare month-to-month vs annual churn rates
@@ -149,8 +149,8 @@ function drawGroupedBarChart(colName, xText, orderArr) {
                 connector: { end: "arrow" },
                 x: x0("month_to_month") + x1("Churned") + x1.bandwidth() / 2,
                 y: y(mtm.Churned),
-                dx: 110,
-                dy: -90
+                dx: 280,
+                dy: -140
             }];
         }
 
