@@ -168,8 +168,8 @@ function drawLineChart() {
                 .style("opacity", 1);
         });
 
-        let activeW4 = lineData[3].active.toFixed(1);
-        let churnedW4 = lineData[3].churned.toFixed(1);
+        let activeW4 = lineData[3].active.toFixed(2);
+        let churnedW4 = lineData[3].churned.toFixed(2);
         let annotations = [{
             note: {
                 label: "By Week 4, members who churn average only " + churnedW4 + " visits per week compared to " + activeW4 + " visits per week for members who stay active.",
