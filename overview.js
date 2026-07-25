@@ -79,18 +79,19 @@ function drawFirstChart() {
                 label: "Roughly 1 in every 2 January signups will stop showing up within two months — " + churnTotal.toLocaleString() + " members lost",
                 wrap: 180
             },
-            x: x("Churned") + x.bandwidth() / 2 - 90,
-            y: y(churnPercent) - 75,
+            connector: { end: "arrow" },
+            x: x("Churned") + x.bandwidth() / 2,
+            y: y(churnPercent) - 15,
             dx: 0,
-            dy: 0
+            dy: -120
         }];
         
         let makeAnnotations = d3.annotation()
-            .type(d3.annotationLabel)
+            .type(d3.annotationCalloutElbow)
             .annotations(annotations);
         
         svg.append("g")
-            .attr("class", "annotation-group cat-group no-line")
+            .attr("class", "annotation-group cat-group")
             .call(makeAnnotations)
             .style("opacity", 0)
             .transition().duration(500)

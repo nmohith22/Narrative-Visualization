@@ -175,20 +175,21 @@ function drawLineChart() {
         let annotations = [{
             note: {
                 label: "Churned members' attendance drops " + churnedDrop + "% from Week 1 to 4, while active members only drop " + activeDrop + "% — the decline predicts who will quit",
-                wrap: 260
+                wrap: 180
             },
-            x: x("Week 2") + 40,
-            y: y(lineData[1].active) - 40,
+            connector: { end: "arrow" },
+            x: x("Week 2"),
+            y: y(lineData[1].active) - 15,
             dx: 0,
-            dy: -30
+            dy: -100
         }];
 
         let makeAnnotations = d3.annotation()
-            .type(d3.annotationLabel)
+            .type(d3.annotationCalloutElbow)
             .annotations(annotations);
 
         svg.append("g")
-            .attr("class", "annotation-group cat-group no-line")
+            .attr("class", "annotation-group cat-group")
             .call(makeAnnotations)
             .style("opacity", 0)
             .transition().duration(500)

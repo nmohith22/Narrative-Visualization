@@ -89,13 +89,6 @@ button.active {
     font-size: 13px;
 }
 
-.annotation-label .annotation-connector,
-.annotation-label .annotation-subject,
-.annotation-label line,
-.annotation-label path {
-    display: none !important;
-}
-
 .annotation path {
     stroke: #333;
     fill: none;

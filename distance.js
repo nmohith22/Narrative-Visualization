@@ -36,19 +36,21 @@ function drawConcentricCircles(colName, orderArr) {
     let greens = ["#006400", "#228B22", "#32CD32", "#90EE90"];
     let reds = ["#8B0000", "#B22222", "#DC143C", "#F08080"];
 
-    let ringThick = 36;
-    let ringGap = 12;
-    let currentInner = 30;
+    let ringThick = 55;
+    let ringGap = 10;
+    let currentInner = 20;
     let lastRingData = null;
+    let lastMidRadius = 0;
 
     for (let i = 0; i < chartData.length; i++) {
         let d = chartData[i];
         lastRingData = d;
+        lastMidRadius = currentInner + ringThick / 2;
 
-        // Calculate churn angle along the circumference (0 to 2*PI scaled by Churned percentage)
+        // Calculate churn angle along the 360° circumference (0 to 2*PI scaled by Churned percentage)
         let churnAngle = (d.Churned / 100) * 2 * Math.PI;
 
-        // Red arc (Churned) - spans 0 to churnAngle along the circle
+        // Red arc (Churned) - spans from 0 to churnAngle along the circle
         let redArc = d3.arc()
             .innerRadius(currentInner)
             .outerRadius(currentInner + ringThick)
@@ -72,7 +74,7 @@ function drawConcentricCircles(colName, orderArr) {
             .transition().duration(700)
             .attr("opacity", 1);
 
-        // Green arc (Active) - spans churnAngle to 2*PI along the circle
+        // Green arc (Active) - spans from churnAngle to 2*PI along the circle
         let greenArc = d3.arc()
             .innerRadius(currentInner)
             .outerRadius(currentInner + ringThick)
@@ -96,39 +98,41 @@ function drawConcentricCircles(colName, orderArr) {
             .transition().duration(700)
             .attr("opacity", 1);
 
-        // Text labels inside the ring band at left and right horizontal centers
+        // Text labels inside the 55px ring band at left and right horizontal centers
         let labelR = currentInner + ringThick / 2;
 
         // Left text (inside Green arc band)
         let gText = svg.append("text")
             .attr("class", "cat-group")
             .attr("x", centerX - labelR)
-            .attr("y", centerY + 4)
+            .attr("y", centerY)
             .attr("text-anchor", "middle")
             .attr("fill", "white")
-            .style("font-size", "11px")
+            .style("font-size", "13px")
             .style("font-weight", "bold")
             .style("pointer-events", "none");
 
-        gText.text(d.key + " mi (" + d.Stayed.toFixed(1) + "%)");
+        gText.append("tspan").attr("x", centerX - labelR).attr("dy", "-0.4em").text(d.key + " mi");
+        gText.append("tspan").attr("x", centerX - labelR).attr("dy", "1.2em").text(d.Stayed.toFixed(1) + "% Active");
 
         // Right text (inside Red arc band)
         let rText = svg.append("text")
             .attr("class", "cat-group")
             .attr("x", centerX + labelR)
-            .attr("y", centerY + 4)
+            .attr("y", centerY)
             .attr("text-anchor", "middle")
             .attr("fill", "white")
-            .style("font-size", "11px")
+            .style("font-size", "13px")
             .style("font-weight", "bold")
             .style("pointer-events", "none");
 
-        rText.text(d.key + " mi (" + d.Churned.toFixed(1) + "%)");
+        rText.append("tspan").attr("x", centerX + labelR).attr("dy", "-0.4em").text(d.key + " mi");
+        rText.append("tspan").attr("x", centerX + labelR).attr("dy", "1.2em").text(d.Churned.toFixed(1) + "% Churned");
 
         currentInner = currentInner + ringThick + ringGap;
     }
 
-    // Static annotation callout with NO connector line
+    // Static annotation on the outermost ring (5+ miles)
     setTimeout(function() {
         if (currentScene !== 4) return;
 
@@ -139,20 +143,21 @@ function drawConcentricCircles(colName, orderArr) {
             let annotations = [{
                 note: {
                     label: "Members 5+ miles away churn " + diff + " percentage points more than those within 1 mile (" + farthest.Churned.toFixed(1) + "% vs " + closest.Churned.toFixed(1) + "%)",
-                    wrap: 240
+                    wrap: 180
                 },
-                x: centerX - 120,
-                y: 20,
+                connector: { end: "arrow" },
+                x: centerX,
+                y: centerY - lastMidRadius,
                 dx: 0,
-                dy: 0
+                dy: -40
             }];
 
             let makeAnnotations = d3.annotation()
-                .type(d3.annotationLabel)
+                .type(d3.annotationCalloutElbow)
                 .annotations(annotations);
 
             svg.append("g")
-                .attr("class", "annotation-group cat-group no-line")
+                .attr("class", "annotation-group cat-group")
                 .call(makeAnnotations)
                 .style("opacity", 0)
                 .transition().duration(500)
