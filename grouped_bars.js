@@ -126,7 +126,6 @@ function drawGroupedBarChart(colName, xText, orderArr) {
             annotationData = [{
                 note: {
                     label: "Under-25 members are " + ratio + "x more likely to churn than those 55+ (" + youngest.Churned.toFixed(1) + "% vs " + oldest.Churned.toFixed(1) + "%)",
-                    title: "The Age Gap",
                     wrap: 150
                 },
                 connector: { end: "arrow" },
@@ -143,7 +142,6 @@ function drawGroupedBarChart(colName, xText, orderArr) {
             annotationData = [{
                 note: {
                     label: "Month-to-month members are " + ratio + "x more likely to churn than annual members (" + mtm.Churned.toFixed(1) + "% vs " + annual.Churned.toFixed(1) + "%)",
-                    title: "The Commitment Effect",
                     wrap: 150
                 },
                 connector: { end: "arrow" },

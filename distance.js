@@ -130,7 +130,6 @@ function drawConcentricCircles(colName, orderArr) {
             let annotations = [{
                 note: {
                     label: "Members 5+ miles away churn " + diff + " percentage points more than those within 1 mile (" + farthest.Churned.toFixed(1) + "% vs " + closest.Churned.toFixed(1) + "%)",
-                    title: "Proximity Matters",
                     wrap: 140
                 },
                 connector: { end: "arrow" },

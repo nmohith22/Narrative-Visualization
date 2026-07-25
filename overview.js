@@ -78,7 +78,6 @@ function drawFirstChart() {
         let annotations = [{
             note: {
                 label: "Roughly 1 in every 2 January signups will stop showing up within two months — " + churnTotal.toLocaleString() + " members lost",
-                title: "The Resolution Effect",
                 wrap: 150
             },
             connector: { end: "arrow" },

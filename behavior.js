@@ -175,7 +175,6 @@ function drawLineChart() {
         let annotations = [{
             note: {
                 label: "Churned members' attendance drops " + churnedDrop + "% from Week 1 to 4, while active members only drop " + activeDrop + "% — the decline predicts who will quit",
-                title: "The Warning Sign",
                 wrap: 160
             },
             connector: { end: "arrow" },
