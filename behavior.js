@@ -177,9 +177,9 @@ function drawLineChart() {
             },
             connector: { type: "none" },
             x: x("Week 2"),
-            y: y(lineData[1].active) - 45,
+            y: y(4.0),
             dx: 0,
-            dy: 0
+            dy: -20
         }];
 
         let makeAnnotations = d3.annotation()
