@@ -6,13 +6,13 @@
     <title>Gym Resolutions</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-svg-annotation@2/d3-annotation.min.js"></script>
 </head>
 <body>
     <div id="container">
         <header>
             <h1>Gym Resolutions</h1>
-            <p style="font-size: 14px; color: #666; margin-top: -5px;"><i>Click the red or green boxes in the legend to toggle the view</i></p>
+            <p style="font-size: 14px; color: #666; margin-top: -5px;"><i>Hover over data elements for details. Click the legend boxes to toggle categories.</i></p>
             <p id="scene-description">Loading data...</p>
         </header>
         
@@ -24,12 +24,15 @@
                 <button id="btn-scene2" class="drill-btn">↳ Demographics (Age)</button>
                 <button id="btn-scene3" class="drill-btn">↳ Commitment (Contracts)</button>
                 <button id="btn-scene4" class="drill-btn">↳ Location (Distance)</button>
+                <button id="btn-scene5" class="drill-btn">↳ Behavior (Weekly Visits)</button>
             </div>
         </div>
 
         <main id="viz-container">
             <!-- SVG will be injected here -->
         </main>
+        
+        <div id="takeaway" class="hidden"></div>
         
         <div id="tooltip" class="hidden"></div>
     </div>

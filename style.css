@@ -75,6 +75,7 @@ button.active {
     padding: 8px 12px;
     pointer-events: none;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    max-width: 250px;
 }
 
 #tooltip h3 {
@@ -88,25 +89,54 @@ button.active {
     font-size: 13px;
 }
 
+#takeaway {
+    padding: 14px 18px;
+    background-color: #fffbe6;
+    border-left: 4px solid #e6a817;
+    margin-top: 15px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
 .annotation path {
-    stroke: black;
+    stroke: #333;
     fill: none;
 }
 
 .annotation path.connector-arrow {
-    fill: black;
+    fill: #333;
 }
 
 .annotation text {
-    fill: black;
+    fill: #333;
     font-size: 12px;
 }
 
 .annotation-note-title {
     font-weight: bold;
+    font-size: 13px;
+}
+
+.annotation-note-label {
+    font-size: 12px;
+    fill: #555;
+}
+
+.annotation .annotation-note-bg {
+    fill: rgba(255, 255, 255, 0.85);
+    stroke: none;
 }
 
 .axis-label {
     font-weight: bold;
     font-size: 14px;
+}
+
+.grid-lines line {
+    stroke: #e0e0e0;
+    stroke-dasharray: 3,3;
+}
+
+.grid-lines .domain {
+    display: none;
 }
