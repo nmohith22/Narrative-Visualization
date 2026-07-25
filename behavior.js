@@ -188,7 +188,7 @@ function drawLineChart() {
             .annotations(annotations);
 
         svg.append("g")
-            .attr("class", "annotation-group cat-group")
+            .attr("class", "annotation-group cat-group no-line")
             .call(makeAnnotations)
             .style("opacity", 0)
             .transition().duration(500)
