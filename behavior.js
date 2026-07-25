@@ -181,8 +181,8 @@ function drawLineChart() {
             connector: { end: "arrow" },
             x: x("Week 3"),
             y: y((week3.active + week3.churned) / 2),
-            dx: -100,
-            dy: -70
+            dx: -130,
+            dy: -100
         }];
 
         let makeAnnotations = d3.annotation()

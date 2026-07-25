@@ -84,8 +84,8 @@ function drawFirstChart() {
             connector: { end: "arrow" },
             x: x("Churned") + x.bandwidth() / 2,
             y: y(churnPercent),
-            dx: 80,
-            dy: -60
+            dx: 110,
+            dy: -100
         }];
         
         let makeAnnotations = d3.annotation()
