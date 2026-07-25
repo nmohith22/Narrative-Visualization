@@ -89,15 +89,6 @@ button.active {
     font-size: 13px;
 }
 
-#takeaway {
-    padding: 14px 18px;
-    background-color: #fffbe6;
-    border-left: 4px solid #e6a817;
-    margin-top: 15px;
-    font-size: 15px;
-    line-height: 1.5;
-}
-
 .annotation path {
     stroke: #333;
     fill: none;
