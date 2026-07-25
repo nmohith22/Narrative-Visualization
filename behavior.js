@@ -175,13 +175,13 @@ function drawLineChart() {
         let annotations = [{
             note: {
                 label: "Churned members' attendance drops " + churnedDrop + "% from Week 1 to 4, while active members only drop " + activeDrop + "% — the decline predicts who will quit",
-                wrap: 160
+                wrap: 180
             },
             connector: { end: "arrow" },
-            x: x("Week 4"),
-            y: y(lineData[3].churned) - 10,
-            dx: -160,
-            dy: 45
+            x: x("Week 2"),
+            y: y(lineData[1].active) - 15,
+            dx: 0,
+            dy: -60
         }];
 
         let makeAnnotations = d3.annotation()

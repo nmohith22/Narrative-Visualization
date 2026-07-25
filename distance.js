@@ -36,15 +36,14 @@ function drawConcentricCircles(colName, orderArr) {
     let greens = ["#006400", "#228B22", "#32CD32", "#90EE90"];
     let reds = ["#8B0000", "#B22222", "#DC143C", "#F08080"];
 
-    let ringStep = 25;
-    let ringGap = 10;
-    let currentInner = 20;
+    let ringThick = 26;
+    let ringGap = 8;
+    let currentInner = 25;
     let lastRingData = null;
     let lastMidRadius = 0;
 
     for (let i = 0; i < chartData.length; i++) {
         let d = chartData[i];
-        let ringThick = 15 + d.Stayed * 0.22;
         lastRingData = d;
         lastMidRadius = currentInner + ringThick / 2;
 
@@ -71,10 +70,9 @@ function drawConcentricCircles(colName, orderArr) {
             .transition().duration(700)
             .attr("opacity", 1);
 
-        let churnThick = 15 + d.Churned * 0.22;
         let redArc = d3.arc()
             .innerRadius(currentInner)
-            .outerRadius(currentInner + churnThick)
+            .outerRadius(currentInner + ringThick)
             .startAngle(0)
             .endAngle(Math.PI);
 
@@ -102,26 +100,27 @@ function drawConcentricCircles(colName, orderArr) {
             .attr("y", centerY)
             .attr("text-anchor", "middle")
             .attr("fill", "white")
-            .style("font-size", "10px")
+            .style("font-size", "11px")
+            .style("font-weight", "bold")
             .style("pointer-events", "none");
             
         gText.append("tspan").attr("x", centerX - labelR).attr("dy", "-0.5em").text(d.key + " mi");
         gText.append("tspan").attr("x", centerX - labelR).attr("dy", "1.2em").text(d.Stayed.toFixed(1) + "%");
 
-        let cLabelR = currentInner + churnThick / 2;
         let rText = svg.append("text")
             .attr("class", "cat-group")
-            .attr("x", centerX + cLabelR)
+            .attr("x", centerX + labelR)
             .attr("y", centerY)
             .attr("text-anchor", "middle")
             .attr("fill", "white")
-            .style("font-size", "10px")
+            .style("font-size", "11px")
+            .style("font-weight", "bold")
             .style("pointer-events", "none");
             
-        rText.append("tspan").attr("x", centerX + cLabelR).attr("dy", "-0.5em").text(d.key + " mi");
-        rText.append("tspan").attr("x", centerX + cLabelR).attr("dy", "1.2em").text(d.Churned.toFixed(1) + "%");
+        rText.append("tspan").attr("x", centerX + labelR).attr("dy", "-0.5em").text(d.key + " mi");
+        rText.append("tspan").attr("x", centerX + labelR).attr("dy", "1.2em").text(d.Churned.toFixed(1) + "%");
 
-        currentInner = currentInner + Math.max(ringThick, churnThick) + ringGap;
+        currentInner = currentInner + ringThick + ringGap;
     }
 
     // Static annotation on the outermost ring (5+ miles)
@@ -135,13 +134,13 @@ function drawConcentricCircles(colName, orderArr) {
             let annotations = [{
                 note: {
                     label: "Members 5+ miles away churn " + diff + " percentage points more than those within 1 mile (" + farthest.Churned.toFixed(1) + "% vs " + closest.Churned.toFixed(1) + "%)",
-                    wrap: 130
+                    wrap: 140
                 },
                 connector: { end: "arrow" },
                 x: centerX + lastMidRadius,
                 y: centerY,
-                dx: 35,
-                dy: -30
+                dx: 45,
+                dy: -35
             }];
 
             let makeAnnotations = d3.annotation()
