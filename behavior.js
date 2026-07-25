@@ -175,8 +175,9 @@ function drawLineChart() {
                 label: "Churned members' attendance drops " + churnedDrop + "% from Week 1 to 4, while active members only drop " + activeDrop + "%. The decline predicts who will quit.",
                 wrap: 240
             },
-            x: x("Week 2") - 40,
-            y: y(lineData[1].active) - 40,
+            connector: { type: "none" },
+            x: x("Week 2"),
+            y: y(lineData[1].active) - 45,
             dx: 0,
             dy: 0
         }];
@@ -186,7 +187,7 @@ function drawLineChart() {
             .annotations(annotations);
 
         svg.append("g")
-            .attr("class", "annotation-group cat-group no-line")
+            .attr("class", "annotation-group cat-group")
             .call(makeAnnotations)
             .style("opacity", 0)
             .transition().duration(500)

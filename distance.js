@@ -36,9 +36,9 @@ function drawConcentricCircles(colName, orderArr) {
     let greens = ["#006400", "#228B22", "#32CD32", "#90EE90"];
     let reds = ["#8B0000", "#B22222", "#DC143C", "#F08080"];
 
-    let ringThick = 42;
-    let ringGap = 12;
-    let currentInner = 35;
+    let ringThick = 45;
+    let ringGap = 10;
+    let currentInner = 30;
     let lastRingData = null;
 
     for (let i = 0; i < chartData.length; i++) {
@@ -96,69 +96,46 @@ function drawConcentricCircles(colName, orderArr) {
             .transition().duration(700)
             .attr("opacity", 1);
 
-        // Create invisible curved guide paths at midpoint radius for textPath rendering
         let midR = currentInner + ringThick / 2;
 
-        let redPathD = d3.arc()
-            .innerRadius(midR)
-            .outerRadius(midR)
-            .startAngle(0)
-            .endAngle(churnAngle)();
-
-        let greenPathD = d3.arc()
-            .innerRadius(midR)
-            .outerRadius(midR)
-            .startAngle(churnAngle)
-            .endAngle(2 * Math.PI)();
-
-        let redPathId = "red-text-path-" + i;
-        let greenPathId = "green-text-path-" + i;
-
-        svg.append("path")
-            .attr("id", redPathId)
+        // 1. Distance Bin Label at top of ring (12 o'clock)
+        let topText = svg.append("text")
             .attr("class", "cat-group")
-            .attr("transform", "translate(" + centerX + "," + centerY + ")")
-            .attr("d", redPathD)
-            .style("fill", "none")
-            .style("stroke", "none");
-
-        svg.append("path")
-            .attr("id", greenPathId)
-            .attr("class", "cat-group")
-            .attr("transform", "translate(" + centerX + "," + centerY + ")")
-            .attr("d", greenPathD)
-            .style("fill", "none")
-            .style("stroke", "none");
-
-        // Render curved text along the red arc
-        let rText = svg.append("text")
-            .attr("class", "cat-group")
-            .attr("dy", "4")
-            .style("pointer-events", "none");
-
-        rText.append("textPath")
-            .attr("href", "#" + redPathId)
-            .attr("startOffset", "50%")
+            .attr("x", centerX)
+            .attr("y", centerY - midR + 4)
             .attr("text-anchor", "middle")
             .attr("fill", "white")
-            .style("font-size", "12px")
+            .style("font-size", "11px")
             .style("font-weight", "bold")
-            .text(d.key + " mi: " + d.Churned.toFixed(1) + "% Churned");
+            .style("pointer-events", "none");
 
-        // Render curved text along the green arc
+        topText.text(d.key + " mi");
+
+        // 2. Active % Label at 9 o'clock (left side inside Green arc)
         let gText = svg.append("text")
             .attr("class", "cat-group")
-            .attr("dy", "4")
-            .style("pointer-events", "none");
-
-        gText.append("textPath")
-            .attr("href", "#" + greenPathId)
-            .attr("startOffset", "50%")
+            .attr("x", centerX - midR)
+            .attr("y", centerY + 4)
             .attr("text-anchor", "middle")
             .attr("fill", "white")
             .style("font-size", "12px")
             .style("font-weight", "bold")
-            .text(d.key + " mi: " + d.Stayed.toFixed(1) + "% Active");
+            .style("pointer-events", "none");
+
+        gText.text(d.Stayed.toFixed(1) + "%");
+
+        // 3. Churned % Label at 3 o'clock (right side inside Red arc)
+        let rText = svg.append("text")
+            .attr("class", "cat-group")
+            .attr("x", centerX + midR)
+            .attr("y", centerY + 4)
+            .attr("text-anchor", "middle")
+            .attr("fill", "white")
+            .style("font-size", "12px")
+            .style("font-weight", "bold")
+            .style("pointer-events", "none");
+
+        rText.text(d.Churned.toFixed(1) + "%");
 
         currentInner = currentInner + ringThick + ringGap;
     }
@@ -176,8 +153,9 @@ function drawConcentricCircles(colName, orderArr) {
                     label: "Members 5+ miles away churn " + diff + " percentage points more than those within 1 mile (" + farthest.Churned.toFixed(1) + "% vs " + closest.Churned.toFixed(1) + "%)",
                     wrap: 240
                 },
+                connector: { type: "none" },
                 x: centerX - 120,
-                y: 15,
+                y: 20,
                 dx: 0,
                 dy: 0
             }];
@@ -187,7 +165,7 @@ function drawConcentricCircles(colName, orderArr) {
                 .annotations(annotations);
 
             svg.append("g")
-                .attr("class", "annotation-group cat-group no-line")
+                .attr("class", "annotation-group cat-group")
                 .call(makeAnnotations)
                 .style("opacity", 0)
                 .transition().duration(500)
