@@ -36,9 +36,9 @@ function drawConcentricCircles(colName, orderArr) {
     let greens = ["#006400", "#228B22", "#32CD32", "#90EE90"];
     let reds = ["#8B0000", "#B22222", "#DC143C", "#F08080"];
 
-    let ringThick = 26;
-    let ringGap = 8;
-    let currentInner = 25;
+    let ringThick = 32;
+    let ringGap = 10;
+    let currentInner = 28;
     let lastRingData = null;
     let lastMidRadius = 0;
 
@@ -100,7 +100,7 @@ function drawConcentricCircles(colName, orderArr) {
             .attr("y", centerY)
             .attr("text-anchor", "middle")
             .attr("fill", "white")
-            .style("font-size", "11px")
+            .style("font-size", "12px")
             .style("font-weight", "bold")
             .style("pointer-events", "none");
             
@@ -113,7 +113,7 @@ function drawConcentricCircles(colName, orderArr) {
             .attr("y", centerY)
             .attr("text-anchor", "middle")
             .attr("fill", "white")
-            .style("font-size", "11px")
+            .style("font-size", "12px")
             .style("font-weight", "bold")
             .style("pointer-events", "none");
             
@@ -139,8 +139,8 @@ function drawConcentricCircles(colName, orderArr) {
                 connector: { end: "arrow" },
                 x: centerX + lastMidRadius,
                 y: centerY,
-                dx: 45,
-                dy: -35
+                dx: 30,
+                dy: -40
             }];
 
             let makeAnnotations = d3.annotation()

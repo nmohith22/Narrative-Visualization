@@ -1,7 +1,7 @@
 let currentScene = 1;
 let myData = [];
 
-let margin = { top: 110, right: 120, bottom: 70, left: 70 };
+let margin = { top: 90, right: 120, bottom: 60, left: 70 };
 let w = 900 - margin.left - margin.right;
 let h = 560 - margin.top - margin.bottom;
 
