@@ -131,8 +131,8 @@ function drawGroupedBarChart(colName, xText, orderArr) {
                 },
                 connector: { end: "arrow" },
                 x: x0("<25") + x1("Churned") + x1.bandwidth() / 2,
-                y: y(youngest.Churned),
-                dx: 40,
+                y: y(youngest.Churned) - 15,
+                dx: 0,
                 dy: -90
             }];
         } else if (savedScene === 3) {
@@ -148,8 +148,8 @@ function drawGroupedBarChart(colName, xText, orderArr) {
                 },
                 connector: { end: "arrow" },
                 x: x0("month_to_month") + x1("Churned") + x1.bandwidth() / 2,
-                y: y(mtm.Churned),
-                dx: 40,
+                y: y(mtm.Churned) - 15,
+                dx: 0,
                 dy: -90
             }];
         }

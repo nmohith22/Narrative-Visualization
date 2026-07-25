@@ -134,10 +134,10 @@ function drawConcentricCircles(colName, orderArr) {
                     wrap: 140
                 },
                 connector: { end: "arrow" },
-                x: centerX + midRadius,
-                y: centerY,
-                dx: 40,
-                dy: -90
+                x: centerX - midRadius * 0.707,
+                y: centerY - midRadius * 0.707,
+                dx: -70,
+                dy: -40
             }];
 
             let makeAnnotations = d3.annotation()

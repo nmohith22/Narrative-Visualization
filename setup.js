@@ -1,9 +1,9 @@
 let currentScene = 1;
 let myData = [];
 
-let margin = { top: 90, right: 120, bottom: 70, left: 70 };
+let margin = { top: 110, right: 120, bottom: 70, left: 70 };
 let w = 900 - margin.left - margin.right;
-let h = 540 - margin.top - margin.bottom;
+let h = 560 - margin.top - margin.bottom;
 
 let svg = d3.select("#viz-container")
     .append("svg")
@@ -61,8 +61,8 @@ function drawLegend() {
     let legend = svg.append("g").attr("class", "legend-item");
     
     legend.append("rect")
-        .attr("x", w - 20)
-        .attr("y", -30)
+        .attr("x", w - 100)
+        .attr("y", -80)
         .attr("width", 15)
         .attr("height", 15)
         .style("fill", "green")
@@ -76,11 +76,11 @@ function drawLegend() {
             }
         });
         
-    legend.append("text").attr("x", w).attr("y", -18).text("Active").style("font-size", "13px");
+    legend.append("text").attr("x", w - 80).attr("y", -68).text("Active").style("font-size", "13px");
 
     legend.append("rect")
-        .attr("x", w - 20)
-        .attr("y", -10)
+        .attr("x", w - 100)
+        .attr("y", -60)
         .attr("width", 15)
         .attr("height", 15)
         .style("fill", "red")
@@ -94,5 +94,5 @@ function drawLegend() {
             }
         });
         
-    legend.append("text").attr("x", w).attr("y", 2).text("Churned").style("font-size", "13px");
+    legend.append("text").attr("x", w - 80).attr("y", -48).text("Churned").style("font-size", "13px");
 }

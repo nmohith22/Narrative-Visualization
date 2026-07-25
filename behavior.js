@@ -181,7 +181,7 @@ function drawLineChart() {
             connector: { end: "arrow" },
             x: x("Week 3"),
             y: y((week3.active + week3.churned) / 2),
-            dx: -40,
+            dx: -80,
             dy: -90
         }];
 

@@ -83,8 +83,8 @@ function drawFirstChart() {
             },
             connector: { end: "arrow" },
             x: x("Churned") + x.bandwidth() / 2,
-            y: y(churnPercent),
-            dx: 60,
+            y: y(churnPercent) - 15,
+            dx: -120,
             dy: -80
         }];
         
