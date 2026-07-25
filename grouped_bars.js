@@ -119,32 +119,36 @@ function drawGroupedBarChart(colName, xText, orderArr) {
         // Scene-specific static annotation
         let annotationData;
         if (savedScene === 2) {
-            // Annotate <25 churned bar (highest churn age group)
-            let targetData = chartData[0]; // <25 is first
+            // Compare youngest vs oldest churn rates
+            let youngest = chartData[0]; // <25
+            let oldest = chartData[chartData.length - 1]; // 55+
+            let ratio = (youngest.Churned / oldest.Churned).toFixed(1);
             annotationData = [{
                 note: {
-                    label: targetData.Churned.toFixed(1) + "% of members under 25 quit",
-                    title: "Youngest = Highest Churn",
+                    label: "Under-25 members are " + ratio + "x more likely to churn than those 55+ (" + youngest.Churned.toFixed(1) + "% vs " + oldest.Churned.toFixed(1) + "%)",
+                    title: "The Age Gap",
                     wrap: 150
                 },
                 connector: { end: "arrow" },
                 x: x0("<25") + x1("Churned") + x1.bandwidth() / 2,
-                y: y(targetData.Churned),
+                y: y(youngest.Churned),
                 dx: 80,
                 dy: -50
             }];
         } else if (savedScene === 3) {
-            // Annotate month_to_month churned bar (highest churn contract)
-            let targetData = chartData[0]; // month_to_month is first
+            // Compare month-to-month vs annual churn rates
+            let mtm = chartData[0]; // month_to_month
+            let annual = chartData[chartData.length - 1]; // annual
+            let ratio = (mtm.Churned / annual.Churned).toFixed(1);
             annotationData = [{
                 note: {
-                    label: targetData.Churned.toFixed(1) + "% churn with no long-term contract",
-                    title: "No Commitment = More Dropout",
+                    label: "Month-to-month members are " + ratio + "x more likely to churn than annual members (" + mtm.Churned.toFixed(1) + "% vs " + annual.Churned.toFixed(1) + "%)",
+                    title: "The Commitment Effect",
                     wrap: 150
                 },
                 connector: { end: "arrow" },
                 x: x0("month_to_month") + x1("Churned") + x1.bandwidth() / 2,
-                y: y(targetData.Churned),
+                y: y(mtm.Churned),
                 dx: 80,
                 dy: -50
             }];

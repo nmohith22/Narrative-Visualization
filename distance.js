@@ -123,11 +123,14 @@ function drawConcentricCircles(colName, orderArr) {
         if (currentScene !== 4) return;
 
         if (lastRingData) {
+            let closest = chartData[0]; // 0-1 miles
+            let farthest = lastRingData; // 5+ miles
+            let diff = (farthest.Churned - closest.Churned).toFixed(1);
             let midRadius = lastInner + lastRingData.Churned / 2;
             let annotations = [{
                 note: {
-                    label: lastRingData.Churned.toFixed(1) + "% churn for members 5+ miles away",
-                    title: "Distance Drives Dropout",
+                    label: "Members 5+ miles away churn " + diff + " percentage points more than those within 1 mile (" + farthest.Churned.toFixed(1) + "% vs " + closest.Churned.toFixed(1) + "%)",
+                    title: "Proximity Matters",
                     wrap: 140
                 },
                 connector: { end: "arrow" },

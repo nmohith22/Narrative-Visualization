@@ -77,7 +77,7 @@ function drawFirstChart() {
         // Static annotation on Churned bar using d3-annotation
         let annotations = [{
             note: {
-                label: churnPercent.toFixed(1) + "% of January signups quit by February",
+                label: "Roughly 1 in every 2 January signups will stop showing up within two months — " + churnTotal.toLocaleString() + " members lost",
                 title: "The Resolution Effect",
                 wrap: 150
             },
