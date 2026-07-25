@@ -7,7 +7,8 @@ function goToScene(num) {
     let desc = d3.select("#scene-description");
     
     if (num === 1) {
-        desc.html("This dataset tracks the many people who sign up to go to the gym in January and how many people stop or continue to show up.<br><br>What is churn? Churn means a member simply stopped going to the gym or cancelled their membership by the end of February.");
+        let totalCount = myData.length ? myData.length.toLocaleString() : "";
+        desc.html("This dataset tracks the " + totalCount + " people who sign up to go to the gym in January and how many people stop or continue to show up.<br><br>What is churn? Churn means a member simply stopped going to the gym or cancelled their membership by the end of February.");
         drawFirstChart();
     } else if (num === 2) {
         desc.text("Demographics: Churn rate by age group. There is an inverse relationship where increasing age leads to decreasing churn.");
