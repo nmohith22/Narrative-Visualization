@@ -10,7 +10,7 @@ function goToScene(num) {
     
     if (num === 1) {
         desc.html("This dataset tracks the many people who sign up to go to the gym in January and how many people stop or continue to show up.<br><br>What is churn? Churn means a member simply stopped going to the gym or cancelled their membership by the end of February.");
-        takeaway.html("Nearly half of all January gym signups stop going by February \u2014 the \"New Year's Resolution\" effect is real.");
+        takeaway.html("Nearly half of all January gym signups stop going by February. The \"New Year's Resolution\" effect is real.");
         drawFirstChart();
     } else if (num === 2) {
         desc.text("Demographics: Churn rate by age group. There is an inverse relationship where increasing age leads to decreasing churn.");
