@@ -168,8 +168,8 @@ function drawLineChart() {
                 .style("opacity", 1);
         });
 
-        // Static annotation highlighting the diverging trajectories
-        let week3 = lineData[2];
+        let churnedDrop = ((1 - lineData[3].churned / lineData[0].churned) * 100).toFixed(0);
+        let activeDrop = ((1 - lineData[3].active / lineData[0].active) * 100).toFixed(0);
         let annotations = [{
             note: {
                 label: "Churned members' attendance drops " + churnedDrop + "% from Week 1 to 4, while active members only drop " + activeDrop + "%. The decline predicts who will quit.",
