@@ -123,7 +123,7 @@ function drawConcentricCircles(colName, orderArr) {
         if (currentScene !== 4) return;
 
         if (lastRingData) {
-            let outerEdge = lastInner + lastRingData.Churned;
+            let midRadius = lastInner + lastRingData.Churned / 2;
             let annotations = [{
                 note: {
                     label: lastRingData.Churned.toFixed(1) + "% churn for members 5+ miles away",
@@ -131,10 +131,10 @@ function drawConcentricCircles(colName, orderArr) {
                     wrap: 140
                 },
                 connector: { end: "arrow" },
-                x: centerX + outerEdge * 0.7,
-                y: centerY - outerEdge * 0.7,
-                dx: 40,
-                dy: -30
+                x: centerX + midRadius,
+                y: centerY,
+                dx: 60,
+                dy: -80
             }];
 
             let makeAnnotations = d3.annotation()
