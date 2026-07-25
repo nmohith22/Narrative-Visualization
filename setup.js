@@ -76,7 +76,7 @@ function drawLegend() {
             }
         });
         
-    legend.append("text").attr("x", w - 80).attr("y", -68).text("Active").style("font-size", "13px");
+    legend.append("text").attr("x", w - 80).attr("y", -68).text("Active").style("font-size", "13px").style("fill", "#e2e8f0");
 
     legend.append("rect")
         .attr("x", w - 100)
@@ -94,5 +94,5 @@ function drawLegend() {
             }
         });
         
-    legend.append("text").attr("x", w - 80).attr("y", -48).text("Churned").style("font-size", "13px");
+    legend.append("text").attr("x", w - 80).attr("y", -48).text("Churned").style("font-size", "13px").style("fill", "#e2e8f0");
 }
