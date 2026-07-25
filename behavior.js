@@ -177,9 +177,9 @@ function drawLineChart() {
             },
             connector: { type: "none" },
             x: x("Week 2"),
-            y: y(4.0),
+            y: y(4.0) - 10,
             dx: 0,
-            dy: -20
+            dy: 0
         }];
 
         let makeAnnotations = d3.annotation()
@@ -187,7 +187,7 @@ function drawLineChart() {
             .annotations(annotations);
 
         svg.append("g")
-            .attr("class", "annotation-group cat-group")
+            .attr("class", "annotation-group cat-group no-line")
             .call(makeAnnotations)
             .style("opacity", 0)
             .transition().duration(500)

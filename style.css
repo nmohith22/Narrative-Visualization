@@ -89,6 +89,16 @@ button.active {
     font-size: 13px;
 }
 
+/* Hide vertical lines, note lines, connectors, and subjects for no-line callouts */
+.no-line .annotation-connector,
+.no-line .annotation-subject,
+.no-line path.note-line,
+.no-line path.connector,
+.no-line path.subject,
+.no-line line {
+    display: none !important;
+}
+
 .annotation path {
     stroke: #333;
     fill: none;
