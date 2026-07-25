@@ -97,7 +97,7 @@ function drawGroupedBarChart(colName, xText, orderArr) {
                 .text(d.Stayed.toFixed(1) + "%")
                 .style("font-size", "11px")
                 .style("font-weight", "bold")
-                .style("fill", "#333")
+                .style("fill", "#f8fafc")
                 .style("opacity", 0)
                 .transition().duration(300)
                 .style("opacity", 1);
@@ -110,7 +110,7 @@ function drawGroupedBarChart(colName, xText, orderArr) {
                 .text(d.Churned.toFixed(1) + "%")
                 .style("font-size", "11px")
                 .style("font-weight", "bold")
-                .style("fill", "#333")
+                .style("fill", "#f8fafc")
                 .style("opacity", 0)
                 .transition().duration(300)
                 .style("opacity", 1);

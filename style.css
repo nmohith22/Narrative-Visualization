@@ -1,7 +1,8 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 20px;
-    color: #333;
+    color: #e2e8f0;
+    background-color: #1b222d;
 }
 
 #container {
@@ -20,17 +21,18 @@ header {
     font-size: 16px;
     line-height: 1.5;
     padding: 15px;
-    background-color: #f8f9fa;
+    background-color: #242d3c;
     border-left: 4px solid #55c;
     margin-bottom: 25px;
     text-align: left;
+    color: #e2e8f0;
 }
 
 #drill-down-nav {
     text-align: center;
     padding: 15px;
-    border: 1px solid #ddd;
-    background-color: #fcfcfc;
+    border: 1px solid #3a4659;
+    background-color: #242d3c;
     margin-bottom: 20px;
 }
 
@@ -43,19 +45,21 @@ button {
     padding: 8px 16px;
     font-size: 14px;
     cursor: pointer;
-    border: 1px solid #bbb;
-    background-color: #fff;
+    border: 1px solid #4a576d;
+    background-color: #2d384a;
+    color: #e2e8f0;
     border-radius: 3px;
 }
 
 button:hover {
-    background-color: #eee;
+    background-color: #38465c;
 }
 
 button.active {
     font-weight: bold;
-    background-color: #ddd;
-    border-color: #999;
+    background-color: #4a576d;
+    border-color: #64748b;
+    color: #ffffff;
 }
 
 .overview-btn {
@@ -70,11 +74,12 @@ button.active {
 
 #tooltip {
     position: absolute;
-    background: white;
-    border: 1px solid #333;
+    background: #242d3c;
+    border: 1px solid #4a576d;
+    color: #ffffff;
     padding: 8px 12px;
     pointer-events: none;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
     max-width: 250px;
 }
 
@@ -82,59 +87,63 @@ button.active {
     margin: 0 0 5px 0;
     font-size: 14px;
     font-weight: bold;
+    color: #ffffff;
 }
 
 #tooltip p {
     margin: 0;
     font-size: 13px;
-}
-
-/* Hide vertical lines, note lines, connectors, and subjects for no-line callouts */
-.no-line .annotation-connector,
-.no-line .annotation-subject,
-.no-line path.note-line,
-.no-line path.connector,
-.no-line path.subject,
-.no-line line {
-    display: none !important;
+    color: #cbd5e1;
 }
 
 .annotation path {
-    stroke: #333;
+    stroke: #94a3b8;
     fill: none;
 }
 
 .annotation path.connector-arrow {
-    fill: #333;
+    fill: #94a3b8;
 }
 
 .annotation text {
-    fill: #333;
+    fill: #f8fafc;
     font-size: 12px;
 }
 
 .annotation-note-title {
     font-weight: bold;
     font-size: 13px;
+    fill: #ffffff;
 }
 
 .annotation-note-label {
     font-size: 12px;
-    fill: #555;
+    fill: #cbd5e1;
 }
 
 .annotation .annotation-note-bg {
-    fill: rgba(255, 255, 255, 0.85);
-    stroke: none;
+    fill: #242d3c;
+    stroke: #4a576d;
+    stroke-width: 1px;
 }
 
 .axis-label {
     font-weight: bold;
     font-size: 14px;
+    fill: #cbd5e1;
+}
+
+/* Tick labels & grid lines for navy-gray theme */
+svg g.tick text {
+    fill: #cbd5e1;
+}
+
+svg path.domain, svg line {
+    stroke: #4a576d;
 }
 
 .grid-lines line {
-    stroke: #e0e0e0;
+    stroke: #2a3546;
     stroke-dasharray: 3,3;
 }
 
