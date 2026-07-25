@@ -170,26 +170,23 @@ function drawLineChart() {
 
         // Static annotation highlighting the diverging trajectories
         let week3 = lineData[2];
-        let churnedDrop = ((1 - lineData[3].churned / lineData[0].churned) * 100).toFixed(0);
-        let activeDrop = ((1 - lineData[3].active / lineData[0].active) * 100).toFixed(0);
         let annotations = [{
             note: {
-                label: "Churned members' attendance drops " + churnedDrop + "% from Week 1 to 4, while active members only drop " + activeDrop + "% — the decline predicts who will quit",
-                wrap: 180
+                label: "Churned members' attendance drops " + churnedDrop + "% from Week 1 to 4, while active members only drop " + activeDrop + "%. The decline predicts who will quit.",
+                wrap: 240
             },
-            connector: { end: "arrow" },
-            x: x("Week 2"),
-            y: y(lineData[1].active) - 15,
+            x: x("Week 2") - 40,
+            y: y(lineData[1].active) - 40,
             dx: 0,
-            dy: -100
+            dy: 0
         }];
 
         let makeAnnotations = d3.annotation()
-            .type(d3.annotationCalloutElbow)
+            .type(d3.annotationLabel)
             .annotations(annotations);
 
         svg.append("g")
-            .attr("class", "annotation-group cat-group")
+            .attr("class", "annotation-group cat-group no-line")
             .call(makeAnnotations)
             .style("opacity", 0)
             .transition().duration(500)
