@@ -125,8 +125,8 @@ function drawGroupedBarChart(colName, xText, orderArr) {
             let ratio = (youngest.Churned / oldest.Churned).toFixed(1);
             annotationData = [{
                 note: {
-                    label: "Under-25 members are " + ratio + "x more likely to churn than those 55+ (" + youngest.Churned.toFixed(1) + "% vs " + oldest.Churned.toFixed(1) + "%)",
-                    wrap: 150
+                    label: "Under 25 members are the most likely to churn out of all age groups. Older members seem to want to stay, though the difference is not by much.",
+                    wrap: 200
                 },
                 connector: { end: "arrow" },
                 x: x0("<25") + x1("Churned") + x1.bandwidth() / 2,

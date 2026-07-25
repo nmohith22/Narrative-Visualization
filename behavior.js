@@ -168,11 +168,11 @@ function drawLineChart() {
                 .style("opacity", 1);
         });
 
-        let churnedDrop = ((1 - lineData[3].churned / lineData[0].churned) * 100).toFixed(0);
-        let activeDrop = ((1 - lineData[3].active / lineData[0].active) * 100).toFixed(0);
+        let activeW4 = lineData[3].active.toFixed(1);
+        let churnedW4 = lineData[3].churned.toFixed(1);
         let annotations = [{
             note: {
-                label: "Churned members' attendance drops " + churnedDrop + "% from Week 1 to 4, while active members only drop " + activeDrop + "%.",
+                label: "By Week 4, members who churn average only " + churnedW4 + " visits per week compared to " + activeW4 + " visits per week for members who stay active.",
                 wrap: 240
             },
             connector: { type: "none" },
