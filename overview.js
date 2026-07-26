@@ -76,7 +76,7 @@ function drawFirstChart() {
         
         let annotations = [{
             note: {
-                label: "Roughly 1 in every 2 January signups will stop showing up within two months — " + churnTotal.toLocaleString() + " members lost",
+                label: "Roughly 1 in every 2 January signups will stop showing up within two months → " + churnTotal.toLocaleString() + " members lost",
                 wrap: 180
             },
             connector: { end: "arrow" },
