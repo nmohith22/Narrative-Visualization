@@ -58,14 +58,6 @@ function drawLineChart() {
         .attr("stroke-width", 3)
         .attr("d", activeLine);
 
-    // Animate active line drawing
-    let activeTotalLength = activePathEl.node().getTotalLength();
-    activePathEl
-        .attr("stroke-dasharray", activeTotalLength + " " + activeTotalLength)
-        .attr("stroke-dashoffset", activeTotalLength)
-        .transition().duration(1000)
-        .attr("stroke-dashoffset", 0);
-
     // Churned line
     let churnedLine = d3.line()
         .x(function(d) { return x(d.week); })
@@ -79,14 +71,6 @@ function drawLineChart() {
         .attr("stroke-width", 3)
         .attr("d", churnedLine);
 
-    // Animate churned line drawing
-    let churnedTotalLength = churnedPathEl.node().getTotalLength();
-    churnedPathEl
-        .attr("stroke-dasharray", churnedTotalLength + " " + churnedTotalLength)
-        .attr("stroke-dashoffset", churnedTotalLength)
-        .transition().duration(1000)
-        .attr("stroke-dashoffset", 0);
-
     // Add dots for active line
     svg.selectAll(".active-dot")
         .data(lineData)
@@ -98,7 +82,6 @@ function drawLineChart() {
         .attr("fill", "green")
         .attr("stroke", "white")
         .attr("stroke-width", 2)
-        .style("opacity", 0)
         .on("mouseover", function(event, d) {
             tooltip.classed("hidden", false);
             tooltip.html("<h3>" + d.week + " (Active)</h3><p>" + d.active.toFixed(2) + " visits/week</p><p>" + activeCount.toLocaleString() + " members</p>");
@@ -107,9 +90,7 @@ function drawLineChart() {
             tooltip.style("left", (event.pageX + 15) + "px");
             tooltip.style("top", (event.pageY - 15) + "px");
         })
-        .on("mouseout", function() { tooltip.classed("hidden", true); })
-        .transition().delay(800).duration(300)
-        .style("opacity", 1);
+        .on("mouseout", function() { tooltip.classed("hidden", true); });
 
     // Add dots for churned line
     svg.selectAll(".churned-dot")
@@ -122,7 +103,6 @@ function drawLineChart() {
         .attr("fill", "red")
         .attr("stroke", "white")
         .attr("stroke-width", 2)
-        .style("opacity", 0)
         .on("mouseover", function(event, d) {
             tooltip.classed("hidden", false);
             tooltip.html("<h3>" + d.week + " (Churned)</h3><p>" + d.churned.toFixed(2) + " visits/week</p><p>" + churnedCount.toLocaleString() + " members</p>");
@@ -131,66 +111,51 @@ function drawLineChart() {
             tooltip.style("left", (event.pageX + 15) + "px");
             tooltip.style("top", (event.pageY - 15) + "px");
         })
-        .on("mouseout", function() { tooltip.classed("hidden", true); })
-        .transition().delay(800).duration(300)
-        .style("opacity", 1);
+        .on("mouseout", function() { tooltip.classed("hidden", true); });
 
-    // Add value labels and annotation after animation
-    setTimeout(function() {
-        if (currentScene !== 5) return;
+    // Value labels at each data point
+    lineData.forEach(function(d) {
+        svg.append("text")
+            .attr("class", "value-label cat-group stayed-data")
+            .attr("x", x(d.week))
+            .attr("y", y(d.active) - 12)
+            .attr("text-anchor", "middle")
+            .text(d.active.toFixed(2))
+            .style("font-size", "11px")
+            .style("font-weight", "bold")
+            .style("fill", "green");
 
-        // Value labels at each data point
-        lineData.forEach(function(d) {
-            svg.append("text")
-                .attr("class", "value-label cat-group stayed-data")
-                .attr("x", x(d.week))
-                .attr("y", y(d.active) - 12)
-                .attr("text-anchor", "middle")
-                .text(d.active.toFixed(2))
-                .style("font-size", "11px")
-                .style("font-weight", "bold")
-                .style("fill", "green")
-                .style("opacity", 0)
-                .transition().duration(300)
-                .style("opacity", 1);
+        svg.append("text")
+            .attr("class", "value-label cat-group churned-data")
+            .attr("x", x(d.week))
+            .attr("y", y(d.churned) + 20)
+            .attr("text-anchor", "middle")
+            .text(d.churned.toFixed(2))
+            .style("font-size", "11px")
+            .style("font-weight", "bold")
+            .style("fill", "red");
+    });
 
-            svg.append("text")
-                .attr("class", "value-label cat-group churned-data")
-                .attr("x", x(d.week))
-                .attr("y", y(d.churned) + 20)
-                .attr("text-anchor", "middle")
-                .text(d.churned.toFixed(2))
-                .style("font-size", "11px")
-                .style("font-weight", "bold")
-                .style("fill", "red")
-                .style("opacity", 0)
-                .transition().duration(300)
-                .style("opacity", 1);
-        });
+    let activeW4 = lineData[3].active.toFixed(2);
+    let churnedW4 = lineData[3].churned.toFixed(2);
+    let annotations = [{
+        note: {
+            label: "By Week 4, members who churn average only " + churnedW4 + " visits per week compared to " + activeW4 + " visits per week for members who stay active.",
+            wrap: 240
+        },
+        connector: { type: "none" },
+        x: x("Week 2"),
+        y: y(4.0) - 10,
+        dx: 0,
+        dy: 0
+    }];
 
-        let activeW4 = lineData[3].active.toFixed(2);
-        let churnedW4 = lineData[3].churned.toFixed(2);
-        let annotations = [{
-            note: {
-                label: "By Week 4, members who churn average only " + churnedW4 + " visits per week compared to " + activeW4 + " visits per week for members who stay active.",
-                wrap: 240
-            },
-            connector: { type: "none" },
-            x: x("Week 2"),
-            y: y(4.0) - 10,
-            dx: 0,
-            dy: 0
-        }];
+    let makeAnnotations = d3.annotation()
+        .type(d3.annotationLabel)
+        .annotations(annotations);
 
-        let makeAnnotations = d3.annotation()
-            .type(d3.annotationLabel)
-            .annotations(annotations);
-
-        svg.append("g")
-            .attr("class", "annotation-group cat-group no-line")
-            .call(makeAnnotations)
-            .style("opacity", 0)
-            .transition().duration(500)
-            .style("opacity", 1);
-    }, 1100);
+    svg.append("g")
+        .attr("class", "annotation-group cat-group no-line")
+        .call(makeAnnotations);
+}
 }

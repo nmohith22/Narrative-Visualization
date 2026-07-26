@@ -27,8 +27,8 @@ function drawGroupedBarChart(colName, xText, orderArr) {
     let y = d3.scaleLinear().domain([0, 100]).range([h, 0]);
 
     addGridlines(y);
-    xAxisGroup.transition().duration(500).call(d3.axisBottom(x0));
-    yAxisGroup.transition().duration(500).call(d3.axisLeft(y).tickFormat(d => d + "%"));
+    xAxisGroup.call(d3.axisBottom(x0));
+    yAxisGroup.call(d3.axisLeft(y).tickFormat(d => d + "%"));
     xLabel.text(xText);
     yLabel.text("Percentage (%)");
 
@@ -39,9 +39,9 @@ function drawGroupedBarChart(colName, xText, orderArr) {
     catGroups.append("rect")
         .attr("class", "stayed-data")
         .attr("x", x1("Stayed"))
-        .attr("y", h)
+        .attr("y", function(d) { return y(d.Stayed); })
         .attr("width", x1.bandwidth())
-        .attr("height", 0)
+        .attr("height", function(d) { return h - y(d.Stayed); })
         .attr("fill", "green")
         
         // source: https://d3-graph-gallery.com/graph/interactivity_tooltip.html
@@ -53,18 +53,14 @@ function drawGroupedBarChart(colName, xText, orderArr) {
             tooltip.style("left", (event.pageX + 15) + "px");
             tooltip.style("top", (event.pageY - 15) + "px");
         })
-        .on("mouseout", function() { tooltip.classed("hidden", true); })
-        
-        .transition().duration(700)
-        .attr("y", function(d) { return y(d.Stayed); })
-        .attr("height", function(d) { return h - y(d.Stayed); });
+        .on("mouseout", function() { tooltip.classed("hidden", true); });
         
     catGroups.append("rect")
         .attr("class", "churned-data")
         .attr("x", x1("Churned"))
-        .attr("y", h)
+        .attr("y", function(d) { return y(d.Churned); })
         .attr("width", x1.bandwidth())
-        .attr("height", 0)
+        .attr("height", function(d) { return h - y(d.Churned); })
         .attr("fill", "red")
         
         // source: https://d3-graph-gallery.com/graph/interactivity_tooltip.html
@@ -76,93 +72,75 @@ function drawGroupedBarChart(colName, xText, orderArr) {
             tooltip.style("left", (event.pageX + 15) + "px");
             tooltip.style("top", (event.pageY - 15) + "px");
         })
-        .on("mouseout", function() { tooltip.classed("hidden", true); })
-        
-        .transition().duration(700)
-        .attr("y", function(d) { return y(d.Churned); })
-        .attr("height", function(d) { return h - y(d.Churned); });
+        .on("mouseout", function() { tooltip.classed("hidden", true); });
 
-    // Add value labels and static annotation after bars finish animating
-    let savedScene = currentScene;
-    setTimeout(function() {
-        if (currentScene !== savedScene) return;
+    // Value labels above each bar
+    chartData.forEach(function(d) {
+        svg.append("text")
+            .attr("class", "value-label cat-group stayed-data")
+            .attr("x", x0(d.key) + x1("Stayed") + x1.bandwidth() / 2)
+            .attr("y", y(d.Stayed) - 5)
+            .attr("text-anchor", "middle")
+            .text(d.Stayed.toFixed(1) + "%")
+            .style("font-size", "11px")
+            .style("font-weight", "bold")
+            .style("fill", "#333");
 
-        // Value labels above each bar
-        chartData.forEach(function(d) {
-            svg.append("text")
-                .attr("class", "value-label cat-group stayed-data")
-                .attr("x", x0(d.key) + x1("Stayed") + x1.bandwidth() / 2)
-                .attr("y", y(d.Stayed) - 5)
-                .attr("text-anchor", "middle")
-                .text(d.Stayed.toFixed(1) + "%")
-                .style("font-size", "11px")
-                .style("font-weight", "bold")
-                .style("fill", "#333")
-                .style("opacity", 0)
-                .transition().duration(300)
-                .style("opacity", 1);
+        svg.append("text")
+            .attr("class", "value-label cat-group churned-data")
+            .attr("x", x0(d.key) + x1("Churned") + x1.bandwidth() / 2)
+            .attr("y", y(d.Churned) - 5)
+            .attr("text-anchor", "middle")
+            .text(d.Churned.toFixed(1) + "%")
+            .style("font-size", "11px")
+            .style("font-weight", "bold")
+            .style("fill", "#333");
+    });
 
-            svg.append("text")
-                .attr("class", "value-label cat-group churned-data")
-                .attr("x", x0(d.key) + x1("Churned") + x1.bandwidth() / 2)
-                .attr("y", y(d.Churned) - 5)
-                .attr("text-anchor", "middle")
-                .text(d.Churned.toFixed(1) + "%")
-                .style("font-size", "11px")
-                .style("font-weight", "bold")
-                .style("fill", "#333")
-                .style("opacity", 0)
-                .transition().duration(300)
-                .style("opacity", 1);
-        });
+    // Scene-specific static annotation
+    let annotationData;
+    if (currentScene === 2) {
+        // Compare youngest vs oldest churn rates
+        let youngest = chartData[0]; // <25
+        let oldest = chartData[chartData.length - 1]; // 55+
+        let ratio = (youngest.Churned / oldest.Churned).toFixed(1);
+        annotationData = [{
+            note: {
+                label: "Under 25 members are the most likely to churn out of all age groups. Older members seem to want to stay, though the difference is not by much.",
+                wrap: 200
+            },
+            connector: { end: "arrow" },
+            x: x0("<25") + x1("Churned") + x1.bandwidth() / 2,
+            y: y(youngest.Churned) - 15,
+            dx: 0,
+            dy: -90
+        }];
+    } else if (currentScene === 3) {
+        // Compare month-to-month vs annual churn rates
+        let mtm = chartData[0]; // month_to_month
+        let annual = chartData[chartData.length - 1]; // annual
+        let ratio = (mtm.Churned / annual.Churned).toFixed(1);
+        annotationData = [{
+            note: {
+                label: "Month-to-month members are " + ratio + "x more likely to churn than annual members (" + mtm.Churned.toFixed(1) + "% vs " + annual.Churned.toFixed(1) + "%)",
+                wrap: 150
+            },
+            connector: { end: "arrow" },
+            x: x0("month_to_month") + x1("Churned") + x1.bandwidth() / 2,
+            y: y(mtm.Churned) - 15,
+            dx: 0,
+            dy: -90
+        }];
+    }
 
-        // Scene-specific static annotation
-        let annotationData;
-        if (savedScene === 2) {
-            // Compare youngest vs oldest churn rates
-            let youngest = chartData[0]; // <25
-            let oldest = chartData[chartData.length - 1]; // 55+
-            let ratio = (youngest.Churned / oldest.Churned).toFixed(1);
-            annotationData = [{
-                note: {
-                    label: "Under 25 members are the most likely to churn out of all age groups. Older members seem to want to stay, though the difference is not by much.",
-                    wrap: 200
-                },
-                connector: { end: "arrow" },
-                x: x0("<25") + x1("Churned") + x1.bandwidth() / 2,
-                y: y(youngest.Churned) - 15,
-                dx: 0,
-                dy: -90
-            }];
-        } else if (savedScene === 3) {
-            // Compare month-to-month vs annual churn rates
-            let mtm = chartData[0]; // month_to_month
-            let annual = chartData[chartData.length - 1]; // annual
-            let ratio = (mtm.Churned / annual.Churned).toFixed(1);
-            annotationData = [{
-                note: {
-                    label: "Month-to-month members are " + ratio + "x more likely to churn than annual members (" + mtm.Churned.toFixed(1) + "% vs " + annual.Churned.toFixed(1) + "%)",
-                    wrap: 150
-                },
-                connector: { end: "arrow" },
-                x: x0("month_to_month") + x1("Churned") + x1.bandwidth() / 2,
-                y: y(mtm.Churned) - 15,
-                dx: 0,
-                dy: -90
-            }];
-        }
+    if (annotationData) {
+        let makeAnnotations = d3.annotation()
+            .type(d3.annotationCalloutElbow)
+            .annotations(annotationData);
 
-        if (annotationData) {
-            let makeAnnotations = d3.annotation()
-                .type(d3.annotationCalloutElbow)
-                .annotations(annotationData);
-
-            svg.append("g")
-                .attr("class", "annotation-group cat-group")
-                .call(makeAnnotations)
-                .style("opacity", 0)
-                .transition().duration(500)
-                .style("opacity", 1);
-        }
-    }, 750);
+        svg.append("g")
+            .attr("class", "annotation-group cat-group")
+            .call(makeAnnotations);
+    }
+}
 }
