@@ -29,9 +29,9 @@ function drawFirstChart() {
     bars.enter().append("rect")
         .attr("class", function(d) { return "cat-group " + d.cls; })
         .attr("x", function(d) { return x(d.name); })
-        .attr("y", function(d) { return y(d.val); })
+        .attr("y", h)
         .attr("width", x.bandwidth())
-        .attr("height", function(d) { return h - y(d.val); })
+        .attr("height", 0)
         .attr("fill", function(d) { return d.c; })
         
         // source: https://d3-graph-gallery.com/graph/interactivity_tooltip.html
@@ -45,38 +45,56 @@ function drawFirstChart() {
         })
         .on("mouseout", function() {
             tooltip.classed("hidden", true);
-        });
+        })
+        
+        .merge(bars)
+        .transition().duration(700)
+        .attr("x", function(d) { return x(d.name); })
+        .attr("y", function(d) { return y(d.val); })
+        .attr("width", x.bandwidth())
+        .attr("height", function(d) { return h - y(d.val); });
 
-    // Value labels above bars
-    chartData.forEach(function(d) {
-        svg.append("text")
-            .attr("class", "value-label cat-group " + d.cls)
-            .attr("x", x(d.name) + x.bandwidth() / 2)
-            .attr("y", y(d.val) - 8)
-            .attr("text-anchor", "middle")
-            .text(d.val.toFixed(1) + "%")
-            .style("font-size", "14px")
-            .style("font-weight", "bold")
-            .style("fill", "#333");
-    });
-    
-    let annotations = [{
-        note: {
-            label: "Roughly 1 in every 2 January signups will stop showing up within two months → " + churnTotal.toLocaleString() + " members lost",
-            wrap: 180
-        },
-        connector: { end: "arrow" },
-        x: x("Churned") + x.bandwidth() / 2,
-        y: y(churnPercent) - 15,
-        dx: 0,
-        dy: -150
-    }];
-    
-    let makeAnnotations = d3.annotation()
-        .type(d3.annotationCalloutElbow)
-        .annotations(annotations);
-    
-    svg.append("g")
-        .attr("class", "annotation-group cat-group")
-        .call(makeAnnotations);
+    // Add value labels and annotation after bars finish animating
+    setTimeout(function() {
+        if (currentScene !== 1) return;
+
+        // Value labels above bars
+        chartData.forEach(function(d) {
+            svg.append("text")
+                .attr("class", "value-label cat-group " + d.cls)
+                .attr("x", x(d.name) + x.bandwidth() / 2)
+                .attr("y", y(d.val) - 8)
+                .attr("text-anchor", "middle")
+                .text(d.val.toFixed(1) + "%")
+                .style("font-size", "14px")
+                .style("font-weight", "bold")
+                .style("fill", "#333")
+                .style("opacity", 0)
+                .transition().duration(300)
+                .style("opacity", 1);
+        });
+        
+        let annotations = [{
+            note: {
+                label: "Roughly 1 in every 2 January signups will stop showing up within two months → " + churnTotal.toLocaleString() + " members lost",
+                wrap: 180
+            },
+            connector: { end: "arrow" },
+            x: x("Churned") + x.bandwidth() / 2,
+            y: y(churnPercent) - 15,
+            dx: 0,
+            dy: -150
+        }];
+        
+        let makeAnnotations = d3.annotation()
+            .type(d3.annotationCalloutElbow)
+            .annotations(annotations);
+        
+        svg.append("g")
+            .attr("class", "annotation-group cat-group")
+            .call(makeAnnotations)
+            .style("opacity", 0)
+            .transition().duration(500)
+            .style("opacity", 1);
+    }, 750);
 }

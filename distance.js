@@ -67,7 +67,10 @@ function drawConcentricCircles(colName, orderArr) {
             .on("mousemove", function(event) {
                 tooltip.style("left", (event.pageX + 15) + "px").style("top", (event.pageY - 15) + "px");
             })
-            .on("mouseout", function() { tooltip.classed("hidden", true); });
+            .on("mouseout", function() { tooltip.classed("hidden", true); })
+            .attr("opacity", 0)
+            .transition().duration(700)
+            .attr("opacity", 1);
 
         // Green arc (Active) - spans from churnAngle to 2*PI along the circle
         let greenArc = d3.arc()
@@ -88,7 +91,10 @@ function drawConcentricCircles(colName, orderArr) {
             .on("mousemove", function(event) {
                 tooltip.style("left", (event.pageX + 15) + "px").style("top", (event.pageY - 15) + "px");
             })
-            .on("mouseout", function() { tooltip.classed("hidden", true); });
+            .on("mouseout", function() { tooltip.classed("hidden", true); })
+            .attr("opacity", 0)
+            .transition().duration(700)
+            .attr("opacity", 1);
 
         let midR = currentInner + ringThick / 2;
 
@@ -135,29 +141,35 @@ function drawConcentricCircles(colName, orderArr) {
     }
 
     // Static annotation callout with NO connector line
-    if (lastRingData) {
-        let closest = chartData[0]; // 0-1 miles
-        let farthest = lastRingData; // 5+ miles
-        let diff = (farthest.Churned - closest.Churned).toFixed(1);
-        let annotations = [{
-            note: {
-                label: "Members 5+ miles away churn " + diff + " percentage points more than those within 1 mile (" + farthest.Churned.toFixed(1) + "% vs " + closest.Churned.toFixed(1) + "%)",
-                wrap: 240
-            },
-            connector: { type: "none" },
-            x: 50,
-            y: 20,
-            dx: 0,
-            dy: 0
-        }];
+    setTimeout(function() {
+        if (currentScene !== 4) return;
 
-        let makeAnnotations = d3.annotation()
-            .type(d3.annotationLabel)
-            .annotations(annotations);
+        if (lastRingData) {
+            let closest = chartData[0]; // 0-1 miles
+            let farthest = lastRingData; // 5+ miles
+            let diff = (farthest.Churned - closest.Churned).toFixed(1);
+            let annotations = [{
+                note: {
+                    label: "Members 5+ miles away churn " + diff + " percentage points more than those within 1 mile (" + farthest.Churned.toFixed(1) + "% vs " + closest.Churned.toFixed(1) + "%)",
+                    wrap: 240
+                },
+                connector: { type: "none" },
+                x: 50,
+                y: 20,
+                dx: 0,
+                dy: 0
+            }];
 
-        svg.append("g")
-            .attr("class", "annotation-group cat-group")
-            .call(makeAnnotations);
-    }
-}
+            let makeAnnotations = d3.annotation()
+                .type(d3.annotationLabel)
+                .annotations(annotations);
+
+            svg.append("g")
+                .attr("class", "annotation-group cat-group")
+                .call(makeAnnotations)
+                .style("opacity", 0)
+                .transition().duration(500)
+                .style("opacity", 1);
+        }
+    }, 800);
 }
